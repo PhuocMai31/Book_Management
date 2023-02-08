@@ -26,7 +26,6 @@ class Handle extends BaseHandle{
         let sqlBook = 'SELECT * FROM bookproducts';
         // let sqlBook = 'SELECT * FROM bookproducts WHERE id = ' + id;
         let data = await this.querySQL(sqlBook);
-        console.log(data)
         html = html.replace('{name}', data[0].name)
         html = html.replace('{username}', data[0].price)
         html = html.replace('{email}', data[0].decription)
@@ -309,7 +308,6 @@ class Handle extends BaseHandle{
                     // truy van csdl
                     let sql1 = 'SELECT id, name, price, status, decription, detail, img FROM bookproducts';
                     let products = await this.querySQL(sql1);
-                    console.log(products)
                     // tao giao  dien su dung data truy van trong csdl
                     let newHTML = '';
                     products.forEach((products, index) => {
@@ -336,7 +334,6 @@ class Handle extends BaseHandle{
         // truy van csdl
         let sql1 = 'SELECT id, name, price, status, decription, detail, img FROM bookproducts where category = "Sách Lịch Sử"';
         let products = await this.querySQL(sql1);
-        console.log(products)
         // tao giao  dien su dung data truy van trong csdl
         let newHTML = '';
         products.forEach((products, index) => {
@@ -360,7 +357,6 @@ class Handle extends BaseHandle{
         // truy van csdl
         let sql1 = 'SELECT id, name, price, status, decription, detail, img FROM bookproducts where category = "Sách Triết Học"';
         let products = await this.querySQL(sql1);
-        console.log(products)
         // tao giao  dien su dung data truy van trong csdl
         let newHTML = '';
         products.forEach((products, index) => {
@@ -408,7 +404,6 @@ class Handle extends BaseHandle{
         // truy van csdl
         let sql1 = 'SELECT id, name, price, status, decription, detail, img FROM bookproducts where category = "Truyện"';
         let products = await this.querySQL(sql1);
-        console.log(products)
         // tao giao  dien su dung data truy van trong csdl
         let newHTML = '';
         products.forEach((products, index) => {
@@ -451,9 +446,7 @@ class Handle extends BaseHandle{
     async logout(req, res){
         let cookie = req.headers.cookie;
         let dataCookie = qs.parse(cookie);
-        console.log(dataCookie)
         let nameSession = dataCookie.u_user;
-        console.log(nameSession)
 
 
         fs.unlink('./sessions/' + nameSession + '.txt', () => {
@@ -461,7 +454,27 @@ class Handle extends BaseHandle{
             res.end();
         })
     }
-
+    async showBooksearch(req, res){
+        let queryofBook = url.parse(req.url).query;
+        let idofBook = qs.parse(queryofBook).search;
+        console.log(idofBook)
+        // let sql = 'SELECT id, name, price, status, decription, detail, img FROM bookproducts where category = "Truyện"'
+        // let dataofBook = '';
+        // req.on('data', chunk => {
+        //     dataofBook += chunk
+        // })
+        // console.log(dataofBook)
+        // req.on('end', async () => {
+        //     let dataForm = qs.parse(dataofBook);
+        //     // console.log(dataForm.search)
+        //
+        //     // let sqlupdateBook = `update bookproducts set name = '${dataForm.name}', price = ${dataForm.price}, quantity = ${dataForm.quantity} , category = '${dataForm.category}', decription = '${dataForm.decription}', detail = '${dataForm.detail}' where id = '${idofBook}'`
+        //     // await this.querySQL(sqlupdateBook);
+        //
+        //     // res.writeHead(301, {Location: '/admin/users'});
+        //     res.end();
+        // })
+    }
 
 }
 

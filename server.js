@@ -180,8 +180,8 @@ const server = http.createServer((req, res) => {
                 console.log(err.message)
             });
             break;
-        case '/search':
-            Handler.showBooktruyen(req, res).catch(err => {
+        case '/seads':
+            Handler.showBooksearch(req, res).catch(err => {
                 console.log(err.message)
             });
             break;
