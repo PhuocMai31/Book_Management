@@ -12,6 +12,11 @@ const server = http.createServer((req, res) => {
 
     // xu ly router
     switch (pathName) {
+        case '/':
+            Handler.showHome(req, res).catch(err => {
+                console.log(err.message)
+            });
+            break;
         case '/admin':
             Handler.showDashboard(req, res).catch(err => {
                 console.log(err.message)
@@ -21,9 +26,7 @@ const server = http.createServer((req, res) => {
             // kiem tra session
             // lay  thong tin session tu cookie cua request
             let cookie = req.headers.cookie;
-            console.log(cookie)
             let usernameLogin = qs.parse(cookie).u_user;
-            console.log(usernameLogin)
             if (!usernameLogin) {
                 res.writeHead(301, {Location: '/admin/login'})
                 return res.end();
@@ -150,6 +153,36 @@ const server = http.createServer((req, res) => {
                 users.push(userInfo);
                 console.log(users)
                 res.end('Register success!');
+            });
+            break;
+        case '/admin/logout2':
+            Handler.logout(req, res).catch(err => {
+                console.log(err.message)
+            })
+            break;
+        case '/Boook/lichsu':
+            Handler.showBookLichsu(req, res).catch(err => {
+                console.log(err.message)
+            });
+            break;
+        case '/Boook/triethoc':
+            Handler.showBookTrietHoc(req, res).catch(err => {
+                console.log(err.message)
+            });
+            break;
+        case '/Boook/giaoduc':
+            Handler.showBookgiaoduc(req, res).catch(err => {
+                console.log(err.message)
+            });
+            break;
+        case '/Boook/truyen':
+            Handler.showBooktruyen(req, res).catch(err => {
+                console.log(err.message)
+            });
+            break;
+        case '/search':
+            Handler.showBooktruyen(req, res).catch(err => {
+                console.log(err.message)
             });
             break;
         default:

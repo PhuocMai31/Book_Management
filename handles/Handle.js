@@ -4,6 +4,8 @@ const qs = require("qs");
 const fs = require("fs");
 const cookie = require('cookie');
 let formidable = require('formidable');
+// const express = require('express')
+
 
 class Handle extends BaseHandle{
     async showDashboard(req, res) {
@@ -11,16 +13,35 @@ class Handle extends BaseHandle{
         res.write(html)
         res.end();
     }
+    async showHome(req, res) {
+        let html = await this.getTemplate('./src/view/index.html');
+        res.write(html)
+        res.end();
+    }
+    async showBook(req, res){
+        let query = url.parse(req.url).query;
+        let id = qs.parse(query).id;
+        let html = await this.getTemplate('./src/view/users/updateUser.html');
+        // truy van csdl table user
+        let sqlBook = 'SELECT * FROM bookproducts';
+        // let sqlBook = 'SELECT * FROM bookproducts WHERE id = ' + id;
+        let data = await this.querySQL(sqlBook);
+        console.log(data)
+        html = html.replace('{name}', data[0].name)
+        html = html.replace('{username}', data[0].price)
+        html = html.replace('{email}', data[0].decription)
+        html = html.replace('{address}', data[0].detail)
+        res.write(html)
+        res.end();
+    }
     async showSearchListUsers(req, res){
         let html = await this.getTemplate('./src/view/users/UserList.html');
-        req.on(0)
         // truy van csdl table user
         let sqlUser = `SELECT id, name, username, email, role, phone FROM users where name like '%${name}%'`;
-        let users = await this.querySQL(sqlUser);
-
+        let usersSearch = await this.querySQL(sqlUser);
         // tao giao  dien su dung data truy van trong csdl table user
         let newHTMLUSER = '';
-        users.forEach((user, index) => {
+        usersSearch.forEach((user, index) => {
             newHTMLUSER += '<tr>';
             newHTMLUSER += `<td>${index + 1}</td>`;
             newHTMLUSER += `<td><b>${user.name}</td>`;
@@ -103,7 +124,6 @@ class Handle extends BaseHandle{
     async deleteBoook(req, res) {
         let query = url.parse(req.url).query;
         let id = qs.parse(query).id;
-        console.log(id)
         let sql = 'DELETE FROM bookproducts WHERE id = ' + id;
         await this.querySQL(sql);
         res.writeHead(301, {Location: '/admin/users'});
@@ -212,7 +232,6 @@ class Handle extends BaseHandle{
     async updateUser(req, res) {
         let query = url.parse(req.url).query;
         let id = qs.parse(query).id;
-        console.log(id)
         // lay du  lieu tu  form
         let data = '';
         req.on('data', chunk => {
@@ -230,7 +249,6 @@ class Handle extends BaseHandle{
     async updateBook(req, res) {
         let queryofBook = url.parse(req.url).query;
         let idofBook = qs.parse(queryofBook).id;
-        console.log('day la id '+ idofBook)
         // lay du  lieu tu  form
         let dataofBook = '';
         req.on('data', chunk => {
@@ -277,7 +295,11 @@ class Handle extends BaseHandle{
 
                     // tao cookie
                     // gan cookie vao header res
-                    res.setHeader('Set-Cookie','u_user=' + result[0].username);
+                    // res.setHeader('Set-Cookie','u_user=' + result[0].username);
+                    res.setHeader('Set-Cookie',cookie.serialize('u_user', String(result[0].username), {
+                        httpOnly: true,
+                        maxAge: 20
+                    }));
 
                     res.writeHead(301, {Location: '/admin/users'});
                     return res.end()
@@ -285,16 +307,19 @@ class Handle extends BaseHandle{
                 else if (result[0].role == 2) {
                     let html = await this.getTemplate('./src/view/productList.html');
                     // truy van csdl
-                    let sql1 = 'SELECT id, name, price, status FROM products';
+                    let sql1 = 'SELECT id, name, price, status, decription, detail, img FROM bookproducts';
                     let products = await this.querySQL(sql1);
+                    console.log(products)
                     // tao giao  dien su dung data truy van trong csdl
                     let newHTML = '';
                     products.forEach((products, index) => {
                         newHTML += '<tr>';
                         newHTML += `<td>${index + 1}</td>`;
-                        newHTML += `<td>${products.name}</td>`;
+                        newHTML += `<td><b>${products.name}</b></td>`;
                         newHTML += `<td>${products.price}</td>`;
-                        newHTML += `<td>${products.status}</td>`;
+                        newHTML += `<td>${products.decription}</td>`;
+                        newHTML += `<td>${products.detail}</td>`;
+                        newHTML += `<td><img src='${products.img}' width="200px" height="200px"/></td>`;
                         newHTML += '</tr>';
                     });
                     // lay data sql thay doi html
@@ -305,6 +330,102 @@ class Handle extends BaseHandle{
                 }
             }
         })
+    }
+    async showBookLichsu(req, res){
+        let html = await this.getTemplate('./src/view/productList.html');
+        // truy van csdl
+        let sql1 = 'SELECT id, name, price, status, decription, detail, img FROM bookproducts where category = "Sách Lịch Sử"';
+        let products = await this.querySQL(sql1);
+        console.log(products)
+        // tao giao  dien su dung data truy van trong csdl
+        let newHTML = '';
+        products.forEach((products, index) => {
+            newHTML += '<tr>';
+            newHTML += `<td>${index + 1}</td>`;
+            newHTML += `<td><b>${products.name}</b></td>`;
+            newHTML += `<td>${products.price}</td>`;
+            newHTML += `<td>${products.decription}</td>`;
+            newHTML += `<td>${products.detail}</td>`;
+            newHTML += `<td><img src='${products.img}' width="200px" height="200px"/></td>`;
+            newHTML += '</tr>';
+        });
+        // lay data sql thay doi html
+        html = html.replace('{list-Product}', newHTML)
+        res.write(html)
+        //tra ve response
+        res.end();
+    }
+    async showBookTrietHoc(req, res){
+        let html = await this.getTemplate('./src/view/productList.html');
+        // truy van csdl
+        let sql1 = 'SELECT id, name, price, status, decription, detail, img FROM bookproducts where category = "Sách Triết Học"';
+        let products = await this.querySQL(sql1);
+        console.log(products)
+        // tao giao  dien su dung data truy van trong csdl
+        let newHTML = '';
+        products.forEach((products, index) => {
+            newHTML += '<tr>';
+            newHTML += `<td>${index + 1}</td>`;
+            newHTML += `<td><b>${products.name}</b></td>`;
+            newHTML += `<td>${products.price}</td>`;
+            newHTML += `<td>${products.decription}</td>`;
+            newHTML += `<td>${products.detail}</td>`;
+            newHTML += `<td><img src='${products.img}' width="200px" height="200px"/></td>`;
+            newHTML += '</tr>';
+        });
+        // lay data sql thay doi html
+        html = html.replace('{list-Product}', newHTML)
+        res.write(html)
+        //tra ve response
+        res.end();
+    }
+    async showBookgiaoduc(req, res){
+        let html = await this.getTemplate('./src/view/productList.html');
+        // truy van csdl
+        let sql1 = 'SELECT id, name, price, status, decription, detail, img FROM bookproducts where category = "Sách Giáo Dục"';
+        let products = await this.querySQL(sql1);
+        // tao giao  dien su dung data truy van trong csdl
+        let newHTML = '';
+        products.forEach((products, index) => {
+            newHTML += '<tr>';
+            newHTML += `<td>${index + 1}</td>`;
+            newHTML += `<td><b>${products.name}</b></td>`;
+            newHTML += `<td>${products.price}</td>`;
+            newHTML += `<td>${products.decription}</td>`;
+            newHTML += `<td>${products.detail}</td>`;
+            newHTML += `<td><img src='${products.img}' width="200px" height="200px"/></td>`;
+            newHTML += '</tr>';
+        });
+        // lay data sql thay doi html
+        html = html.replace('{list-Product}', newHTML)
+        res.write(html)
+        //tra ve response
+        res.end();
+    }
+
+    async showBooktruyen(req, res){
+        let html = await this.getTemplate('./src/view/productList.html');
+        // truy van csdl
+        let sql1 = 'SELECT id, name, price, status, decription, detail, img FROM bookproducts where category = "Truyện"';
+        let products = await this.querySQL(sql1);
+        console.log(products)
+        // tao giao  dien su dung data truy van trong csdl
+        let newHTML = '';
+        products.forEach((products, index) => {
+            newHTML += '<tr>';
+            newHTML += `<td>${index + 1}</td>`;
+            newHTML += `<td><b>${products.name}</b></td>`;
+            newHTML += `<td>${products.price}</td>`;
+            newHTML += `<td>${products.decription}</td>`;
+            newHTML += `<td>${products.detail}</td>`;
+            newHTML += `<td><img src='${products.img}' width="200px" height="200px"/></td>`;
+            newHTML += '</tr>';
+        });
+        // lay data sql thay doi html
+        html = html.replace('{list-Product}', newHTML)
+        res.write(html)
+        //tra ve response
+        res.end();
     }
 
     async showFormRegister(req, res) {
@@ -327,6 +448,20 @@ class Handle extends BaseHandle{
             res.end();
         })
     }
+    async logout(req, res){
+        let cookie = req.headers.cookie;
+        let dataCookie = qs.parse(cookie);
+        console.log(dataCookie)
+        let nameSession = dataCookie.u_user;
+        console.log(nameSession)
+
+
+        fs.unlink('./sessions/' + nameSession + '.txt', () => {
+            res.writeHead(301, { 'Location': '/' });
+            res.end();
+        })
+    }
+
 
 }
 
