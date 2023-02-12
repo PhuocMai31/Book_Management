@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -22,7 +25,8 @@
                         <a class="nav-link" href="#">Link</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
                             User manager
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -49,38 +53,51 @@
             <form method="post" action='/admin/boook/edit?id={id}'>
                 <div class="mb-3">
                     <label class="form-label">Name</label>
-                    <input required type="text" value="{name}" class="form-control" id="name" name="name" aria-describedby="">
+                    <input required type="text" value="{name}" class="form-control" id="name" name="name"
+                           aria-describedby="">
                 </div>
                 <div class="mb-3">
-                    <label  class="form-label">Author</label>
+                    <label class="form-label">Author</label>
                     <input type="text" value="{author}" disabled class="form-control" name="author" id="2">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Price</label>
-                    <input required  type="number" value="{price}"  class="form-control" name="price" id="username" aria-describedby="">
+                    <input required type="number" value="{price}" class="form-control" name="price" id="username"
+                           aria-describedby="">
                 </div>
                 <div class="mb-3">
-                    <label  class="form-label">Quantity</label>
+                    <label class="form-label">Quantity</label>
                     <input type="number" value="{quantity}" class="form-control" name="quantity" id="4">
                 </div>
                 <div class="mb-3">
-                    <label  class="form-label">Category</label>
+                    <label class="form-label">Category</label>
                     <select class="form-select" name="category" aria-label="Default select example">
                         {role}
                     </select>
                 </div>
                 <div class="mb-3">
+                    <label class="form-label">img</label>
+                    <input required type="file">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Image</label>
+                    <input required type="text" value="" class="form-control" id="img" name="img"
+                           aria-describedby="">
+                </div>
+                <div class="mb-3">
                     <label class="form-label">Decription</label>
                     <div class="form-floating">
-                        <textarea name="decription" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2.1" style="height: 100px">{decription}</textarea>
-                        <label >Thêm mô tả mới</label>
+                        <textarea name="decription" class="form-control" placeholder="Leave a comment here"
+                                  id="floatingTextarea2.1" style="height: 100px">{decription}</textarea>
+                        <label>Thêm mô tả mới</label>
                     </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Detail</label>
                     <div class="form-floating">
-                        <textarea name="detail" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2.13" style="height: 100px">{detail}</textarea>
-                        <label >Chỉnh sửa chi tiết:</label>
+                        <textarea name="detail" class="form-control" placeholder="Leave a comment here"
+                                  id="floatingTextarea2.13" style="height: 100px">{detail}</textarea>
+                        <label>Chỉnh sửa chi tiết:</label>
                     </div>
                 </div>
                 <div class="row">
@@ -88,14 +105,19 @@
                     <div class="col-6">
 
                     </div>
-                    <a  onclick="return confirm('Are you sure you want to delete this Book?')" href='/admin/boook/delete?id={id1}' class="btn btn-danger col">Delete</a>
+                    <a onclick="return confirm('Are you sure you want to delete this Book?')"
+                       href='/admin/boook/delete?id={id1}' class="btn btn-danger col">Delete</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
 </body>
 </html>

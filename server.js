@@ -17,6 +17,26 @@ const server = http.createServer((req, res) => {
                 console.log(err.message)
             });
             break;
+        case '/showNamiya':
+            Handler.showNamiya(req, res).catch(err => {
+                console.log(err.message)
+            });
+            break;
+        case '/showThePrince':
+            Handler.showThePrince(req, res).catch(err => {
+                console.log(err.message)
+            });
+            break;
+        case '/showSapien':
+            Handler.showSapien(req, res).catch(err => {
+                console.log(err.message)
+            });
+            break;
+        case '/about':
+            Handler.about(req, res).catch(err => {
+                console.log(err.message)
+            });
+            break;
         case '/admin':
             Handler.showDashboard(req, res).catch(err => {
                 console.log(err.message)
@@ -77,6 +97,16 @@ const server = http.createServer((req, res) => {
                     console.log(err.message)
                 })
             }
+            break;
+        case '/changePass':
+            Handler.showFormChangePass(req, res).catch(err => {
+                console.log(err.message)
+            })
+            break;
+        case '/changePass/success':
+            Handler.changePass(req, res).catch(err => {
+                console.log(err.message)
+            })
             break;
         case '/admin/register':
             Handler.showFormRegister(req, res).catch(err => {
@@ -155,10 +185,16 @@ const server = http.createServer((req, res) => {
                 res.end('Register success!');
             });
             break;
-        case '/admin/logout2':
-            Handler.logout(req, res).catch(err => {
+        case '/locao':
+            Handler.logout(req,res).catch(err => {
                 console.log(err.message)
-            })
+            });
+
+            break;
+        case '/showBookList':
+            Handler.showBookList(req, res).catch(err => {
+                console.log(err.message)
+            });
             break;
         case '/Boook/lichsu':
             Handler.showBookLichsu(req, res).catch(err => {
@@ -180,8 +216,33 @@ const server = http.createServer((req, res) => {
                 console.log(err.message)
             });
             break;
-        case '/seads':
+        case '/sxceads':
             Handler.showBooksearch(req, res).catch(err => {
+                console.log(err.message)
+            });
+            break;
+        case '/order':
+            Handler.order(req, res).catch(err => {
+                console.log(err.message)
+            });
+            break;
+        case '/userorder':
+            Handler.showorder(req, res).catch(err => {
+                console.log(err.message)
+            });
+            break;
+        case '/deleteItemOrderList':
+            Handler.deleteItemOderList(req, res).catch(err => {
+                console.log(err.message)
+            });
+            break;
+        case '/insertOderToDataBase':
+            Handler.inserOrderToDatabase(req, res).catch(err => {
+                console.log(err.message)
+            });
+            break;
+        case '/viewOrder':
+            Handler.viewOrder(req, res).catch(err => {
                 console.log(err.message)
             });
             break;
